@@ -2,7 +2,7 @@ var dog, dogImg, happydogImg;
 var foodS, foodStock, database;
 var foodObj;
 var fedTime, lastFed, feed, addFood;
-var bedRoomImg, gardenImg, washRoomImg;
+var bedRoomImg, gardenImg, washRoomImg, livingRoomImg;
 
 function preload()
 {
@@ -12,6 +12,7 @@ function preload()
   bedRoomImg = loadImage("images/Bed Room.png");
   gardenImg = loadImage("images/Garden.png");
   washRoomImg = loadImage("images/Wash Room.png");
+  livingRoomImg = loadImage("images/Living Room.png");
 }
 
 function setup() {
@@ -26,6 +27,7 @@ function setup() {
 
   dog = createSprite(800, 250, 20, 20)
   dog.addImage(dogImg)
+  dog.addImage("happyDog", happydogImg);
   dog.scale = 0.25;
 
   getGameState();
@@ -66,7 +68,7 @@ if(foodS == 0){
   dog.addImage(dogImg);
   foodObj.visible = false;
 }else{
-  dog.addImage(happydogImg);
+  dog.changeImage("happyDog");
   foodObj.visible = true;
 }
 
@@ -85,6 +87,65 @@ if(gameState!="Hungry"){
   addFood.show();
   dog.addImage(dogImg);
 }
+
+if(gameState === 1){
+  dog.changeImage(happyDog);
+  dog.scale = 0.175;
+  dog.y = 250;
+}
+
+if(gameState === 2){
+  dog.changeImage(dogImg);
+  dog.scale = 0.175;
+  foodObj.visible = false;
+  dog.y = 250;
+}
+
+var Bath = createButton("I want to take bath");
+Bath.position(580, 125);
+if(gameState === 3){
+  dog.addImage(washRoomImg);
+  dog.scale = 1;
+  foodObj.visible = false;
+}
+
+var Sleep = createButton("I am very sleepy");
+Sleep.position(710, 125);
+if(Sleep.mousePressed(function(){
+  gameState = 4;
+  database.ref('/').update({'gameState' :gameState});
+}));
+if(gameState === 4){
+  dog.addImage(bedRoomImg);
+  dog.scale = 1;
+  foodObj.visible = false;
+}
+
+var Play = createButton("Lets play !");
+Play.position(500, 160);
+if(Play.mousePressed(function(){
+  gameState = 5;
+  database.ref('/').update({'gameState' :gameState});
+}));
+if(gameState === 5){
+  dog.addImage(livingRoomImg);
+  dog.scale = 1;
+  foodObj.visible = false;
+}
+
+var PlayInGarden = createButton("Lets play in park");
+PlayInGarden.position(585, 160);
+if(PlayInGarden.mousePressed(function(){
+  gameState = 6;
+  database.ref('/').update({'gameState' :gameState});
+}));
+if(gameState === 6){
+  dog.y = 175;
+  dog.addImage(gardenImg);
+  dog.scale = 1;
+  foodObj.visible = false;
+}
+
 
 fill(255, 255, 254);
 textSize(15);
