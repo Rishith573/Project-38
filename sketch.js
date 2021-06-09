@@ -64,9 +64,10 @@ if(currentTime ==(lastFed + 1)){
 
 if(foodS == 0){
   dog.addImage(dogImg);
-  
+  foodObj.visible = false;
 }else{
-
+  dog.addImage(happydogImg);
+  foodObj.visible = true;
 }
 
 
