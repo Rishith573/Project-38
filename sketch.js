@@ -3,6 +3,7 @@ var foodS, foodStock, database;
 var foodObj;
 var fedTime, lastFed, feed, addFood;
 var bedRoomImg, gardenImg, washRoomImg, livingRoomImg;
+var Bath, Sleep, Play, PlayInGarden;
 
 function preload()
 {
@@ -30,6 +31,18 @@ function setup() {
   dog.addImage("happyDog", happydogImg);
   dog.scale = 0.25;
 
+  Bath = createButton("I want to take bath");
+  Bath.position(580, 125);
+
+  Sleep = createButton("I am very sleepy");
+  Sleep.position(710, 125);
+
+  Play = createButton("Lets play !");
+  Play.position(500, 160);
+
+  PlayInGarden = createButton("Lets play in park");
+  PlayInGarden.position(585, 160);
+
   getGameState();
 
   feed = createButton("Feed the dog");
@@ -39,6 +52,7 @@ function setup() {
   addFood = createButton("Add Food");
   addFood.position(800, 95);
   addFood.mousePressed(addFoods);
+
 
 }
 
@@ -101,16 +115,14 @@ if(gameState === 2){
   dog.y = 250;
 }
 
-var Bath = createButton("I want to take bath");
-Bath.position(580, 125);
+
 if(gameState === 3){
   dog.addImage(washRoomImg);
   dog.scale = 1;
   foodObj.visible = false;
 }
 
-var Sleep = createButton("I am very sleepy");
-Sleep.position(710, 125);
+
 if(Sleep.mousePressed(function(){
   gameState = 4;
   database.ref('/').update({'gameState' :gameState});
@@ -121,8 +133,7 @@ if(gameState === 4){
   foodObj.visible = false;
 }
 
-var Play = createButton("Lets play !");
-Play.position(500, 160);
+
 if(Play.mousePressed(function(){
   gameState = 5;
   database.ref('/').update({'gameState' :gameState});
@@ -133,8 +144,7 @@ if(gameState === 5){
   foodObj.visible = false;
 }
 
-var PlayInGarden = createButton("Lets play in park");
-PlayInGarden.position(585, 160);
+
 if(PlayInGarden.mousePressed(function(){
   gameState = 6;
   database.ref('/').update({'gameState' :gameState});
