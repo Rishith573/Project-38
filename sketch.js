@@ -4,6 +4,7 @@ var foodObj;
 var fedTime, lastFed, feed, addFood;
 var bedRoomImg, gardenImg, washRoomImg, livingRoomImg;
 var Bath, Sleep, Play, PlayInGarden;
+var gameState
 
 function preload()
 {
@@ -63,26 +64,24 @@ function setup() {
 
 function draw() {  
 background(46, 139, 87);
+foodObj.display();
+//writeStock(foodS);
 currentTime = hour();
-if(currentTime ==(lastFed + 1)){
-  gameState = "Playing";
-  updateGameState();
+/*if(currentTime ==(lastFed + 1)){
+  updateGameState("Playing");
   foodObj.garden();
 }else if(currentTime ==(lastFed + 2)){
-  gameState = "Sleeping";
-  updateGameState();
+  updateGameState("Sleeping");
   foodObj.bedroom();
 }else if(currentTime ==(lastFed + 3)){
-  gameState = "Bathing";
-  updateGameState();
+  updateGameState("Bathing");
   foodObj.washroom();
 }else {
-  gameState = "Hungry";
-  updateGameState();
-  foodObj.display();
-}
+  updateGameState("Hungry");
+  
+}*/
 
-console.log(gameState)
+
 
 if(foodS == 0){
   dog.addImage(dogImg);
@@ -98,7 +97,7 @@ fedTime.on("value", function (data){
   lastFed = data.val();
 })
 
-if(gameState!="Hungry"){
+/*if(gameState!="Hungry"){
   feed.hide();
   addFood.hide();
   dog.remove();
@@ -106,10 +105,10 @@ if(gameState!="Hungry"){
   feed.show();
   addFood.show();
   dog.addImage(dogImg);
-}
+}*/
 
 if(gameState === 1){
-  dog.changeImage(happyDog);
+  dog.changeImage("happyDog");
   dog.scale = 0.175;
   dog.y = 250;
 }
@@ -121,45 +120,45 @@ if(gameState === 2){
   dog.y = 250;
 }
 
+Bath.mousePressed(function(){
+  database.ref('/').update({'gameState' :3});
+})
 
 if(gameState === 3){
-  dog.addImage(washRoomImg);
+  foodObj.washroom();
   dog.scale = 1;
-  foodObj.visible = false;
+  dog.visible = false;
 }
 
 Sleep.mousePressed(function(){
-  gameState = 4;
-  database.ref('/').update({'gameState' :gameState});
+  database.ref('/').update({'gameState' :4});
 })
 
 if(gameState === 4){
-  dog.addImage(bedRoomImg);
+  foodObj.bedroom();
   dog.scale = 1;
-  foodObj.visible = false;
+  dog.visible = false;
 }
 
 
 Play.mousePressed(function(){
-  gameState = 5;
-  database.ref('/').update({'gameState' :gameState});
+  database.ref('/').update({'gameState' :5});
 });
 
 if(gameState === 5){
-  dog.addImage(livingRoomImg);
+  foodObj.livingroom();
   dog.scale = 1;
-  foodObj.visible = false;
+  dog.visible = false;
 }
 
 
 PlayInGarden.mousePressed(function(){
-  gameState = 6;
-  database.ref('/').update({'gameState' :gameState});
+  database.ref('/').update({'gameState' :6});
 });
 
 if(gameState === 6){
   dog.y = 175;
-  dog.addImage(gardenImg);
+  foodObj.garden();
   dog.scale = 1;
   foodObj.visible = false;
 }
@@ -190,6 +189,8 @@ function readStock(data){
 
 function feedDog(){
   dog.addImage(happydogImg);
+  dog.visible = true;
+  updateGameState(1);
 
   foodObj.updateFoodStock(foodObj.getFoodStock() - 1);
   database.ref('/').update({
@@ -199,6 +200,8 @@ function feedDog(){
 }
 
 function addFoods(){
+  dog.visible = true;
+  updateGameState(2);
   foodS++
   database.ref('/').update({
     Food : foodS
@@ -212,8 +215,8 @@ function getGameState(){
   });
 }
 
-function updateGameState(){
+function updateGameState(value){
   database.ref("/").update({
-    gameState: gameState
+    gameState: value
   });
 }

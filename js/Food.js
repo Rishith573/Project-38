@@ -29,15 +29,19 @@ class Food {
     }
 
     bedroom(){
-        background(bedRoomImg, 550, 500);
+        background(bedRoomImg);
     }
 
     garden(){
-        background(gardenImg, 550, 500);
+        background(gardenImg);
     }
 
     washroom(){
-        background(washRoomImg, 550, 500);
+        background(washRoomImg);
+    }
+
+    livingroom(){
+        background(livingRoomImg);
     }
 
     display(){
