@@ -46,7 +46,7 @@ class Food {
 
     display(){
         var x = 80, y = 100;
-
+        push();
         imageMode(CENTER);
         image(this.image, 720, 220, 70, 70);
 
@@ -60,6 +60,7 @@ class Food {
                 x = x+30
             }
         }
+        pop();
     }
     
 }
